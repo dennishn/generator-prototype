@@ -1,0 +1,24 @@
+$base-gray: #fff;
+$panel-padding: 1em;
+
+$gray0: darken($base-gray, 50%);
+$gray1: darken($base-gray, 40%);
+$gray2: darken($base-gray, 30%);
+$gray3: darken($base-gray, 20%);
+$gray4: darken($base-gray, 10%);
+$gray5: $base-gray;
+$gray6: lighten($base-gray, 10%);
+$gray7: lighten($base-gray, 20%);
+$gray8: lighten($base-gray, 30%);
+$gray9: lighten($base-gray, 40%);
+$gray10: lighten($base-gray, 50%);
+
+.proto-panel {
+    background-color:$gray4;
+    &.light {
+        background-color:$gray7;
+    }
+    &.dark {
+        background-color:$gray1;
+    }
+}
