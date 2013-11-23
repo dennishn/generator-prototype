@@ -1,47 +1,27 @@
-# generator-prototype [![Build Status](https://secure.travis-ci.org/dennishn/generator-prototype.png?branch=master)](https://travis-ci.org/dennishn/generator-prototype)
+# Nodes Rapid Prototype generator
 
-A generator for [Yeoman](http://yeoman.io).
+Yeoman generator that scaffolds out a front-end base for rapid prototyping.
 
+## Features
+
+* CSS Autoprefixing
+* Built-in multi-device preview server with [browser-sync](https://github.com/shakyShane/browser-sync).
+* Automatically compile Sass and Compass
+* Automatically wire up your Bower components with [bower-install](https://github.com/stephenplusplus/grunt-bower-install).
+* Zurb's [Foundation 5](http://foundation.zurb.com/) wired in with bower 
+* Modernizr Build - Only get the tests you need
+* Nodes Front-end modular SCSS methology
 
 ## Getting Started
 
-### What is Yeoman?
-
-Trick question. It's not a thing. It's this guy:
-
-![](http://i.imgur.com/JHaAlBJ.png)
-
-Basically, he wears a top hat, lives in your computer, and waits for you to tell him what kind of application you wish to create.
-
-Not every new computer comes with a Yeoman pre-installed. He lives in the [npm](https://npmjs.org) package repository. You only have to ask for him once, then he packs up and moves into your hard drive. *Make sure you clean up, he likes new and shiny things.*
-
-```
-$ npm install -g yo
-```
-
-### Yeoman Generators
-
-Yeoman travels light. He didn't pack any generators when he moved in. You can think of a generator like a plug-in. You get to choose what type of application you wish to create, such as a Backbone application or even a Chrome extension.
-
-To install generator-prototype from npm, run:
-
-```
-$ npm install -g generator-prototype
-```
-
-Finally, initiate the generator:
-
-```
-$ yo prototype
-```
-
-### Getting To Know Yeoman
-
-Yeoman has a heart of gold. He's a person with feelings and opinions, but he's very easy to work with. If you think he's too opinionated, he can be easily convinced.
-
-If you'd like to get to know Yeoman better and meet some of his friends, [Grunt](http://gruntjs.com) and [Bower](http://bower.io), check out the complete [Getting Started Guide](https://github.com/yeoman/yeoman/wiki/Getting-Started).
+- Install: `npm install -g git+https://github.com/dennishn/generator-prototype.git`
+- Run: `yo prototype`
+- Type in your IP adress (windows: `ipconfig` | mac/linux: `ifconfig`
+- Run `grunt serve` for preview
 
 
-## License
+## Options
 
-[MIT License](http://en.wikipedia.org/wiki/MIT_License)
+* `--skip-install`
+
+  Skips the automatic execution of `bower` and `npm` after scaffolding has finished.
