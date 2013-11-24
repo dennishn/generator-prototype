@@ -30,7 +30,7 @@ module.exports = function (grunt) {
                 tasks: ['copy:styles', 'autoprefixer']
             },
             scripts: {
-                files: ['<%&= yeoman.app %>/scripts/**/*.js']
+                files: ['<%%= yeoman.app %>/scripts/**/*.js']
             },
             livereload: {
                 options: {
