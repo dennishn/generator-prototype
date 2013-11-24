@@ -18,6 +18,7 @@ Yeoman generator that scaffolds out a front-end base for rapid prototyping.
 - Run: `yo prototype`
 - Type in your IP adress (windows: `ipconfig` | mac/linux: `ifconfig`
 - Run `grunt serve` to use the live-reload server
+- Run `grunt browser-sync` to use the multi-device preview server
 
 
 ## Options
