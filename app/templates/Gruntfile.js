@@ -49,6 +49,14 @@ module.exports = function (grunt) {
                 port: 9000,
                 livereload: 35729,
                 hostname: '<%%= yeoman.ip %>'
+            },
+            livereload: {
+                options: {
+                    open: true,
+                    base: [
+                        '<%%= yeoman.app %>'
+                    ]
+                }
             }
         },
         compass: {
