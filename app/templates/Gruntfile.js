@@ -1,4 +1,4 @@
-// Generated on 2013-11-23 using generator-webapp 0.4.4
+// Generated on <%= (new Date).toISOString().split('T')[0] %> using <%= pkg.name %> <%= pkg.version %>
 'use strict';
 
 // # Globbing
@@ -22,26 +22,33 @@ module.exports = function (grunt) {
         },
         watch: {
             compass: {
-                files: ['<%%= yeoman.app %>/scss/{,*/}*.{scss,sass}'],
+                files: ['<%%= yeoman.app %>/scss/**/*.{scss,sass}'],
                 tasks: ['compass:server', 'autoprefixer']
             },
             styles: {
                 files: ['<%%= yeoman.app %>/css/{,*/}*.css'],
                 tasks: ['copy:styles', 'autoprefixer']
             },
+            scripts: {
+                files: ['<%&= yeoman.app %>/scripts/**/*.js']
+            },
+            livereload: {
+                options: {
+                    livereload: '<%%= connect.options.livereload %>'
+                },
+                files: [
+                    '<%%= yeoman.app %>/*.html',
+                    '<%%= yeoman.app %>/.tmp/css/{,*/}*.css',
+                    '<%%= yeoman.app %>/scripts/{,*/}*.js',
+                    '<%%= yeoman.app %>/images/{,*/}*.{gif,jpeg,jpg,png,svg,webp}'
+                ]
+            }
         },
         connect: {
             options: {
                 port: 9000,
-                // change this to '0.0.0.0' to access the server from outside
+                livereload: 35729,
                 hostname: '<%%= yeoman.ip %>'
-            },
-            dist: {
-                options: {
-                    open: true,
-                    base: '<%%= yeoman.dist %>',
-                    livereload: false
-                }
             }
         },
         compass: {
@@ -59,11 +66,6 @@ module.exports = function (grunt) {
                 relativeAssets: false,
                 assetCacheBuster: false
             },
-            dist: {
-                options: {
-                    generatedImagesDir: '<%%= yeoman.dist %>/images/generated'
-                }
-            },
             server: {
                 options: {
                     debugInfo: true
@@ -72,7 +74,7 @@ module.exports = function (grunt) {
         },
         autoprefixer: {
             options: {
-                browsers: ['last 1 version']
+                browsers: ['last 2 version']
             },
             dist: {
                 files: [{
@@ -106,16 +108,6 @@ module.exports = function (grunt) {
             }
         },
         clean: {
-            dist: {
-                files: [{
-                    dot: true,
-                    src: [
-                        '<%%= yeoman.app %>/.tmp',
-                        '<%%= yeoman.dist %>/*',
-                        '!<%%= yeoman.dist %>/.git*'
-                    ]
-                }]
-            },
             server: '<%%= yeoman.app %>/.tmp'
         },
         'bower-install': {
@@ -124,24 +116,7 @@ module.exports = function (grunt) {
                 ignorePath: '<%%= yeoman.app %>/'
             }
         },
-        // Put files not handled in other tasks here
         copy: {
-            dist: {
-                files: [{
-                    expand: true,
-                    dot: true,
-                    cwd: '<%%= yeoman.app %>',
-                    dest: '<%%= yeoman.dist %>',
-                    src: [
-                        '*.{ico,png,txt}',
-                        '*.html',
-                        'images/{,*/}*.{gif,jpeg,jpg,png,svg,webp}',
-                        'fonts/{,*/}*.*',
-                        'css/*.css',
-                        'scripts/{,*/}*.js',
-                    ]
-                }]
-            },
             styles: {
                 expand: true,
                 dot: true,
@@ -150,23 +125,10 @@ module.exports = function (grunt) {
                 src: '{,*/}*.css'
             }
         },
-        modernizr: {
-            devFile: '<%%= yeoman.app %>/bower_components/modernizr/modernizr.js',
-            outputFile: '<%%= yeoman.dist %>/bower_components/modernizr/modernizr.js',
-            files: [
-                '<%%= yeoman.dist %>/scripts/{,*/}*.js',
-                '<%%= yeoman.dist %>/css/{,*/}*.css',
-                '!<%%= yeoman.dist %>/scripts/vendor/*'
-            ],
-            uglify: true
-        },
         concurrent: {
             server: [
                 'compass',
                 'copy:styles'
-            ],
-            dist: [
-                'compass',
             ]
         }
     });
@@ -176,24 +138,20 @@ module.exports = function (grunt) {
             'clean:server',
             'concurrent:server',
             'autoprefixer',
-            'browser_sync',
+            'connect:livereload',
             'watch'
         ]);
     });
+
+    grunt.registerTask('browser-sync', [
+        'browser_sync',
+        'watch'
+    ]);
 
     grunt.registerTask('server', function () {
       grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');
       grunt.task.run(['serve']);
     });
-
-    grunt.registerTask('build', [
-        'clean:dist',
-        'concurrent:dist',
-        'autoprefixer',
-        'modernizr',
-        'copy:styles',
-        'copy:dist',
-    ]);
 
     grunt.registerTask('default', [
         'serve'
