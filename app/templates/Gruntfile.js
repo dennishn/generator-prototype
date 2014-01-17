@@ -119,9 +119,26 @@ module.exports = function (grunt) {
             server: '<%%= yeoman.app %>/.tmp'
         },
         'bower-install': {
-            app: {
-                html: '<%%= yeoman.app %>/index.html',
-                ignorePath: '<%%= yeoman.app %>/'
+            development: {
+                src: [
+                        '<%%= yeoman.app %>/index.html'
+                ],
+                exclude:  [ 'bower_components/modernizr/modernizr.js', /modernizr/,
+                                        'bower_components/foundation/js/foundation.js', /foundation/
+                ],
+                fileTypes: {
+                        hbs: {
+                            block: /(([\s\t]*)<!--\s*bower:*(\S*)\s*-->)(\n|\r|.)*?(<!--\s*endbower\s*-->)/gi,
+                            detect: {
+                                      js: /<script.*src=['"](.+)['"]>/gi,
+                                      css: /<link.*href=['"](.+)['"]/gi
+                            },
+                            replace: {
+                                      js: '<script src="{{filePath}}"></script>',
+                                      css: '<link rel="stylesheet" href="{{filePath}}" />'
+                            }
+                        }
+                }
             }
         },
         copy: {
