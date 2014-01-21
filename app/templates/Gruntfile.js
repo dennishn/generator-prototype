@@ -144,16 +144,16 @@ module.exports = function (grunt) {
         },
         useminPrepare: {
             options: {
-                dest: '<%= yeoman.dist %>'
+                dest: '<%%= yeoman.dist %>'
             },
-            html: '<%= yeoman.app %>/*.html'
+            html: '<%%= yeoman.app %>/*.html'
         },
         usemin: {
             options: {
-                assetsDirs: ['<%= yeoman.dist %>']
+                assetsDirs: ['<%%= yeoman.dist %>']
             },
-            html: ['<%= yeoman.dist %>/{,*/}*.html'],
-            css: ['<%= yeoman.dist %>/css/{,*/}*.css']
+            html: ['<%%= yeoman.dist %>/{,*/}*.html'],
+            css: ['<%%= yeoman.dist %>/css/{,*/}*.css']
         },
         htmlmin: {
             dist: {
@@ -169,19 +169,19 @@ module.exports = function (grunt) {
                 },
                 files: [{
                     expand: true,
-                    cwd: '<%= yeoman.dist %>',
+                    cwd: '<%%= yeoman.dist %>',
                     src: '{,*/}*.html',
-                    dest: '<%= yeoman.dist %>'
+                    dest: '<%%= yeoman.dist %>'
                 }]
             }
         },
         modernizr: {
-            devFile: '<%= yeoman.app %>/bower_components/modernizr/modernizr.js',
-            outputFile: '<%= yeoman.dist %>/bower_components/modernizr/modernizr.js',
+            devFile: '<%%= yeoman.app %>/bower_components/modernizr/modernizr.js',
+            outputFile: '<%%= yeoman.dist %>/bower_components/modernizr/modernizr.js',
             files: [
-                '<%= yeoman.dist %>/scripts/{,*/}*.js',
-                '<%= yeoman.dist %>/styles/{,*/}*.css',
-                '!<%= yeoman.dist %>/scripts/vendor/*'
+                '<%%= yeoman.dist %>/scripts/{,*/}*.js',
+                '<%%= yeoman.dist %>/styles/{,*/}*.css',
+                '!<%%= yeoman.dist %>/scripts/vendor/*'
             ],
             uglify: true
         },
