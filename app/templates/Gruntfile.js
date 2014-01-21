@@ -27,7 +27,7 @@ module.exports = function (grunt) {
             },
             styles: {
                 files: ['<%%= yeoman.app %>/css/{,*/}*.css'],
-                tasks: ['copy:styles', 'autoprefixer']
+                tasks: ['newer:copy:styles', 'autoprefixer']
             },
             scripts: {
                 files: ['<%%= yeoman.app %>/scripts/**/*.js']
@@ -62,7 +62,7 @@ module.exports = function (grunt) {
         compass: {
             options: {
                 sassDir: '<%%= yeoman.app %>/scss',
-                cssDir: '<%%= yeoman.app %>/.tmp/css',
+                cssDir: '.tmp/css',
                 generatedImagesDir: '<%%= yeoman.app %>/.tmp/images/generated',
                 imagesDir: '<%%= yeoman.app %>/images',
                 javascriptsDir: '<%%= yeoman.app %>/scripts',
@@ -87,9 +87,9 @@ module.exports = function (grunt) {
             dist: {
                 files: [{
                     expand: true,
-                    cwd: '<%%= yeoman.app %>/.tmp/css/',
+                    cwd: '.tmp/css/',
                     src: '{,*/}*.css',
-                    dest: '<%%= yeoman.app %>/.tmp/css/'
+                    dest: '.tmp/css/'
                 }]
             }
         },
@@ -116,6 +116,16 @@ module.exports = function (grunt) {
             }
         },
         clean: {
+        	dist: {
+                files: [{
+                    dot: true,
+                    src: [
+                        '.tmp',
+                        '<%%= yeoman.dist %>/*',
+                        '!<%%= yeoman.dist %>/.git*'
+                    ]
+                }]
+            },
             server: '<%%= yeoman.app %>/.tmp'
         },
         'bower-install': {
@@ -123,25 +133,72 @@ module.exports = function (grunt) {
                 src: [
                         '<%%= yeoman.app %>/index.html'
                 ],
+                ignorePath: '<%%= yeoman.app %>/',
                 exclude:  [ 'bower_components/modernizr/modernizr.js', /modernizr/,
-                                        'bower_components/foundation/js/foundation.js', /foundation/
-                ],
-                fileTypes: {
-                        hbs: {
-                            block: /(([\s\t]*)<!--\s*bower:*(\S*)\s*-->)(\n|\r|.)*?(<!--\s*endbower\s*-->)/gi,
-                            detect: {
-                                      js: /<script.*src=['"](.+)['"]>/gi,
-                                      css: /<link.*href=['"](.+)['"]/gi
-                            },
-                            replace: {
-                                      js: '<script src="{{filePath}}"></script>',
-                                      css: '<link rel="stylesheet" href="{{filePath}}" />'
-                            }
-                        }
-                }
+                            'bower_components/foundation/js/foundation.js', /foundation/
+                ]
             }
         },
+        uglify: {
+        },
+        useminPrepare: {
+            options: {
+                dest: '<%= yeoman.dist %>'
+            },
+            html: '<%= yeoman.app %>/*.html'
+        },
+        usemin: {
+            options: {
+                assetsDirs: ['<%= yeoman.dist %>']
+            },
+            html: ['<%= yeoman.dist %>/{,*/}*.html'],
+            css: ['<%= yeoman.dist %>/css/{,*/}*.css']
+        },
+        htmlmin: {
+            dist: {
+                options: {
+                    // collapseBooleanAttributes: true,
+                    // collapseWhitespace: true,
+                    // removeAttributeQuotes: true,
+                    // removeCommentsFromCDATA: true,
+                    // removeEmptyAttributes: true,
+                    // removeOptionalTags: true,
+                    // removeRedundantAttributes: true,
+                    // useShortDoctype: true
+                },
+                files: [{
+                    expand: true,
+                    cwd: '<%= yeoman.dist %>',
+                    src: '{,*/}*.html',
+                    dest: '<%= yeoman.dist %>'
+                }]
+            }
+        },
+        modernizr: {
+            devFile: '<%= yeoman.app %>/bower_components/modernizr/modernizr.js',
+            outputFile: '<%= yeoman.dist %>/bower_components/modernizr/modernizr.js',
+            files: [
+                '<%= yeoman.dist %>/scripts/{,*/}*.js',
+                '<%= yeoman.dist %>/styles/{,*/}*.css',
+                '!<%= yeoman.dist %>/scripts/vendor/*'
+            ],
+            uglify: true
+        },
         copy: {
+        	dist: {
+                files: [{
+                    expand: true,
+                    dot: true,
+                    cwd: '<%%= yeoman.app %>',
+                    dest: '<%%= yeoman.dist %>',
+                    src: [
+                        '*.{ico,png,txt}',
+                        'images/{,*/}*.*',
+                        '{,*/}*.html',
+                        'styles/fonts/{,*/}*.*'
+                    ]
+                }]
+            },
             styles: {
                 expand: true,
                 dot: true,
@@ -152,6 +209,10 @@ module.exports = function (grunt) {
         },
         concurrent: {
             server: [
+                'compass',
+                'copy:styles'
+            ],
+            dist: [
                 'compass',
                 'copy:styles'
             ]
@@ -177,6 +238,19 @@ module.exports = function (grunt) {
       grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');
       grunt.task.run(['serve']);
     });
+
+    grunt.registerTask('build', [
+        'clean:dist',
+        'useminPrepare',
+        'concurrent:dist',
+        'autoprefixer',
+        'concat',
+        'cssmin',
+        'uglify',
+        'copy:dist',
+        'usemin',
+        'htmlmin'
+    ]);
 
     grunt.registerTask('default', [
         'serve'
