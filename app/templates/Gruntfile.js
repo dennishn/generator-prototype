@@ -54,6 +54,7 @@ module.exports = function (grunt) {
                 options: {
                     open: true,
                     base: [
+                    	'.tmp',
                         '<%%= yeoman.app %>'
                     ]
                 }
